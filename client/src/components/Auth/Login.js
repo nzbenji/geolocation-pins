@@ -1,11 +1,27 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React from "react"
+import {graphQLClient, GraphQLClient} from 'graphql-request'
+import { withStyles } from "@material-ui/core/styles"
 import { GoogleLogin } from 'react-google-login'
 
+const ME_QUERY = `
+{
+  me {
+    _id
+    name
+    email
+    picture
+  }
+}
+`
+
 const Login = ({ classes }) => {
-  const onSuccess = user => {
+  const onSuccess = async user => {
     const tokenID = user.getAuthResponse().id_token
-    console.log({tokenID})
+    const client = new GraphQLClient('http://localhost:4000/graphql', {
+      headers: { authorization: tokenID }
+    })
+    const queryData = await client.request(ME_QUERY)
+    console.log({queryData})
   }
 
   return <GoogleLogin 

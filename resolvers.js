@@ -1,3 +1,5 @@
+const {AuthenticationError} = require('apollo-server')
+
 const user = {
     _id: '1', 
     name: 'Ben',
@@ -5,8 +7,15 @@ const user = {
     picture: 'url.com'
 }
 
+const authenticated = next => (root, args, context, info) => {
+    if(!context.currentUser) {
+        throw new AuthenticationError("You must be logged in to do that")
+    }
+    return next(root, args, context, info)
+}
+
 module.exports = {
     Query: {
-        me: () => user
+        me: authenticated((root, args, context) => context.currentUser)
     }
 }
