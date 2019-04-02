@@ -22,6 +22,11 @@ const Login = ({ classes }) => {
       type: 'LOGIN_USER',
       payload: me
     })
+    
+    dispatch({ 
+      type: "IS_LOGGED_IN",
+      payload: user.isSignedIn()
+    })
   }
 
   return (

@@ -7,6 +7,8 @@ import Splash from "./pages/Splash"
 import AppContext from './context'
 import reducer from './reducer'
 
+import ProtectedRoute from './ProtectedRoute'
+
 import "mapbox-gl/dist/mapbox-gl.css"
 
 const Root = () => {
@@ -18,7 +20,7 @@ const Root = () => {
     <Router>
       <AppContext.Provider value={{state, dispatch}}>
       <Switch>
-        <Route exact path="/" component={App} />
+        <ProtectedRoute exact path="/" component={App} />
         <Route path="/login" component={Splash} />
       </Switch>
       </AppContext.Provider>
