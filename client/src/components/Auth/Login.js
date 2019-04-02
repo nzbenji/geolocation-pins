@@ -4,17 +4,9 @@ import { withStyles } from "@material-ui/core/styles"
 import { GoogleLogin } from 'react-google-login'
 
 import AppContext from '../../context'
+import {ME_QUERY} from '../../graphql/queries'
 
-const ME_QUERY = `
-{
-  me {
-    _id
-    name
-    email
-    picture
-  }
-}
-`
+
 
 const Login = ({ classes }) => {
   const {dispatch} = useContext(AppContext)
@@ -24,20 +16,27 @@ const Login = ({ classes }) => {
     const client = new GraphQLClient('http://localhost:4000/graphql', {
       headers: { authorization: tokenID }
     })
-    const queryData = await client.request(ME_QUERY)
-    console.log({queryData})
+    const {me} = await client.request(ME_QUERY)
     
     dispatch({
       type: 'LOGIN_USER',
-      payload: queryData.me
+      payload: me
     })
   }
 
-  return <GoogleLogin 
-    clientId = '377087076172-0ke1sun2qk1is3or21pdesdu3mvc2spc.apps.googleusercontent.com' 
-    onSuccess={onSuccess}
-    isSignedIn={true}
-  />
+  return (
+    <div className={classes.root}>
+      <GoogleLogin 
+        clientId = '377087076172-0ke1sun2qk1is3or21pdesdu3mvc2spc.apps.googleusercontent.com' 
+        onSuccess={onSuccess}
+        onFailure={err => {
+          console.error('Error logging in', err)
+        }}
+        isSignedIn={true}
+        theme="dark"
+      />
+    </div>
+  )
 }
 
 const styles = {
