@@ -10,6 +10,12 @@ export default function reducer(state, action) {
                 ...state,
                 isAuth: action.payload
             }
+        case 'SIGNOUT_USER':
+            return {
+                ...state,
+                isAuth: false,
+                currentUser: null
+            }
         default:
             return state
     }

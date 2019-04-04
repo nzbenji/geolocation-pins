@@ -2,6 +2,8 @@ import React, {useContext} from 'react'
 import Context from '../context'
 import { Header, Image } from 'semantic-ui-react'
 
+import Signout from '../components/Auth/Signout'
+
 const Nav = () => {
     const {state} = useContext(Context)
     const {currentUser} = state
@@ -16,7 +18,7 @@ const Nav = () => {
                     alt={currentUser.name}
                     />
                     <text>{currentUser.name}</text>
-                    
+                    <Signout />
                 </div>
                 
             )}
