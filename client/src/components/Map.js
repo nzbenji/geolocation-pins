@@ -1,6 +1,10 @@
-import React, {useState, useEffect} from 'react'
-import ReactMapGL, {NavigationControl, Marker} from 'react-map-gl'
+import React, {useState, useEffect, useContext} from 'react'
+import ReactMapGL, {Marker} from 'react-map-gl'
 import MapIcon from './MapIcon'
+import Context from '../context'
+
+import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const INITIAL_VIEWPORT = {
     latitude: 37.7577,
@@ -9,12 +13,14 @@ const INITIAL_VIEWPORT = {
 }
 
 const Map = () => {
+    const {state, dispatch} = useContext(Context)
+    
     const [viewport, updateViewport] = useState(INITIAL_VIEWPORT)
     const [userPosition, setUserPosition] = useState(null)
 
     useEffect(() => {
         getUserPosition()
-    })
+    }, [])
 
     const getUserPosition = () => {
         if("geolocation" in navigator) {
@@ -24,6 +30,19 @@ const Map = () => {
                 setUserPosition({latitude, longitude})
             })
         }
+    }
+
+    const handleMapClick = ({lngLat, leftButton}) => {
+        if(!leftButton) return
+        if(!state.draft) {
+            dispatch({type: "CREATE_DRAFT"})
+        }
+
+        const [longitude, latitude] = lngLat
+        dispatch({
+            type: "UPDATE_DRAFT_LOCATION",
+            payload: {latitude, longitude}
+        })
     }
 
     const API_KEY = "pk.eyJ1Ijoia2FsYWR6ZSIsImEiOiJjanRub28wcDQzdW5qNGJtdXN3YmJ1MnNhIn0.4R0arj8vtdr_cpcDdB5Agw"
@@ -36,18 +55,38 @@ const Map = () => {
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxApiAccessToken={API_KEY}
                 onViewportChange={newViewport => updateViewport(newViewport)}
+                onClick={handleMapClick}
                 {...viewport} 
             > 
                 {userPosition && (
                     <Marker
-                        icon='../../../icons/map-marker.svg'
                         latitude={userPosition.latitude}
                         longitude={userPosition.longitude}
                         offsetLeft={-19}
                         offsetTop={-37}
                     > 
-                        <MapIcon />
+                        <FontAwesomeIcon 
+                            icon={faMapMarkerAlt} 
+                            size="3x"
+                            color="orange"
+                        />
                     </Marker>
+                )}
+                
+                {/* Draft pin */}
+                {state.draft && (
+                    <Marker
+                        latitude={state.draft.latitude}
+                        longitude={state.draft.longitude}
+                        offsetLeft={-19}
+                        offsetTop={-37}
+                    > 
+                        <FontAwesomeIcon 
+                            icon={faMapMarkerAlt} 
+                            size="3x"
+                            color="hotpink"
+                        />
+                    </Marker>      
                 )}
 
             </ReactMapGL>

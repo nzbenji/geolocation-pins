@@ -17,7 +17,7 @@ const Nav = () => {
                     src={currentUser.picture}
                     alt={currentUser.name}
                     />
-                    <text>{currentUser.name}</text>
+                    <p>{currentUser.name}</p>
                     <Signout />
                 </div>
                 
