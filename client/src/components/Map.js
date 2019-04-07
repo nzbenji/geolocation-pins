@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import ReactMapGL, {Marker} from 'react-map-gl'
-import MapIcon from './MapIcon'
 import Context from '../context'
+import BlogArea from './BlogArea'
 
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -49,8 +49,10 @@ const Map = () => {
 
     return (
         <div>
+            <BlogArea/>
+            
             <ReactMapGL
-                width="100vw"
+                width="80vw"
                 height="calc(100vh - 64px)" /*Height of page minus nav bar height*/
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxApiAccessToken={API_KEY}
@@ -72,7 +74,7 @@ const Map = () => {
                         />
                     </Marker>
                 )}
-                
+
                 {/* Draft pin */}
                 {state.draft && (
                     <Marker
@@ -90,6 +92,7 @@ const Map = () => {
                 )}
 
             </ReactMapGL>
+
         </div>
     )
 }
