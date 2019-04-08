@@ -5,6 +5,7 @@ import Context from '../context'
 import BlogArea from './BlogArea'
 import {useClient} from '../client'
 import {GET_PINS_QUERY} from '../graphql/queries'
+import {DELETE_PIN_MUTATION} from '../graphql/mutations'
 
 import { faMapMarkerAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -99,6 +100,17 @@ const Map = () => {
         return state.currentUser._id === popup.author._id
     }
 
+    const handleDeletePin = async pin => {
+        const variables = {pinId: pin._id}
+        const {deletePin} = await client.request(DELETE_PIN_MUTATION, variables)
+        dispatch({
+            type: "DELETE_PIN",
+            payload: deletePin
+        })
+        setPopup(null)
+    }
+
+
     const API_KEY = "pk.eyJ1Ijoia2FsYWR6ZSIsImEiOiJjanRub28wcDQzdW5qNGJtdXN3YmJ1MnNhIn0.4R0arj8vtdr_cpcDdB5Agw"
 
     return (
@@ -180,7 +192,7 @@ const Map = () => {
                             {popup.longitude.toFixed(6)}
                         </h2>
                         {isAuthUser() && (
-                            <Button>
+                            <Button onClick={() => handleDeletePin(popup)}>
                                 <FontAwesomeIcon 
                                     icon={faTrashAlt} 
                                     size="2x"
