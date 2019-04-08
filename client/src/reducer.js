@@ -34,6 +34,11 @@ export default function reducer(state, action) {
                 ...state, 
                 draft: null
             }
+        case "GET_PINS":
+            return {
+                ...state,
+                pins: action.payload
+            }
         default:
             return state
     }

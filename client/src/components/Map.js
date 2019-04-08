@@ -2,6 +2,8 @@ import React, {useState, useEffect, useContext} from 'react'
 import ReactMapGL, {Marker} from 'react-map-gl'
 import Context from '../context'
 import BlogArea from './BlogArea'
+import {useClient} from '../client'
+import {GET_PINS_QUERY} from '../graphql/queries'
 
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -14,13 +16,27 @@ const INITIAL_VIEWPORT = {
 
 const Map = () => {
     const {state, dispatch} = useContext(Context)
-    
+    const client = useClient()
+
+    useEffect(() => {
+        getPins()   
+       }, [])
+
     const [viewport, updateViewport] = useState(INITIAL_VIEWPORT)
     const [userPosition, setUserPosition] = useState(null)
 
     useEffect(() => {
         getUserPosition()
     }, [])
+
+
+    const getPins = async () => {
+        const {getPins} = await client.request(GET_PINS_QUERY)
+        dispatch({
+            type: "GET_PINS",
+            payload: getPins
+        })
+    }
 
     const getUserPosition = () => {
         if("geolocation" in navigator) {
@@ -90,7 +106,22 @@ const Map = () => {
                         />
                     </Marker>      
                 )}
-
+                {/* created Pins */}
+                {state.pins.map(pin => (
+                    <Marker
+                        key={pin._id}
+                        latitude={pin.latitude}
+                        longitude={pin.longitude}
+                        offsetLeft={-19}
+                        offsetTop={-37}
+                    > 
+                    <FontAwesomeIcon 
+                        icon={faMapMarkerAlt} 
+                        size="3x"
+                        color="blue"
+                    />
+                </Marker> 
+                ))}
             </ReactMapGL>
 
         </div>
