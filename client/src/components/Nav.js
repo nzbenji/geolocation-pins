@@ -7,7 +7,6 @@ import Signout from '../components/Auth/Signout'
 const Nav = () => {
     const {state} = useContext(Context)
     const {currentUser} = state
-    console.log(currentUser)
     return (
         <div>
             <Header as='h2'>

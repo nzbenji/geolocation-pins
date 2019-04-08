@@ -1,4 +1,5 @@
 import React, {useState, useContext} from "react"
+import axios from 'axios'
 import { faMapMarkedAlt } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import CreatePinWrapper from '../styles/createPin'
@@ -12,10 +13,26 @@ const CreatePin = () => {
     const [image, setImage] = useState("")
     const [content, setContent] = useState("")
 
-    const handleSubmit = event => {
-        event.preventDefault()
+    const handleImageUpload = async () => {
+        const data = new FormData()
+        data.append("file", image)
+        data.append("upload_preset", "elktt8hu")
+        data.append("cloud_name", "dynl1lsf5")
+        
+        try {
+            const res = await axios.post("https://api.cloudinary.com/v1_1/dynl1lsf5/image/upload", data)
+            console.log(res.data)
+            return res.data.url
+        } catch(err) {
+            console.error(err)
+        }
+        
+    }
 
-        console.log({title, image, content})
+    const handleSubmit = async event => {
+        event.preventDefault()
+        const url = await handleImageUpload()
+        console.log({title, image,url, content})
     }
 
     const handleDelete = () => {
