@@ -6,7 +6,7 @@ import BlogArea from './BlogArea'
 import {useClient} from '../client'
 import {GET_PINS_QUERY} from '../graphql/queries'
 
-import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons"
+import { faMapMarkerAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import differenceInMinutes from 'date-fns/difference_in_minutes'
 
@@ -16,6 +16,15 @@ const Image = styled.img`
     height: 200px;
     width: 200px;
     object-fit: cover;
+`
+
+const Button = styled.button`
+    padding: 0;
+    background: none;
+    border: none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
 `
 
 const INITIAL_VIEWPORT = {
@@ -84,6 +93,10 @@ const Map = () => {
             type: "SET_PIN",
             payload: pin
         })
+    }
+
+    const isAuthUser = () => {
+        return state.currentUser._id === popup.author._id
     }
 
     const API_KEY = "pk.eyJ1Ijoia2FsYWR6ZSIsImEiOiJjanRub28wcDQzdW5qNGJtdXN3YmJ1MnNhIn0.4R0arj8vtdr_cpcDdB5Agw"
@@ -166,6 +179,15 @@ const Map = () => {
                             {popup.latitude.toFixed(6)},
                             {popup.longitude.toFixed(6)}
                         </h2>
+                        {isAuthUser() && (
+                            <Button>
+                                <FontAwesomeIcon 
+                                    icon={faTrashAlt} 
+                                    size="2x"
+                                    color="red"
+                                />
+                            </Button>
+                        )}
                     </div>
 
                     </Popup>
