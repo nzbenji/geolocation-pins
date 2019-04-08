@@ -8,8 +8,10 @@ import { Button, Form, TextArea, Input } from 'semantic-ui-react'
 
 import Context from '../../context'
 import {CREATE_PIN_MUTATION} from '../../graphql/mutations'
+import {useClient} from '../../client'
 
 const CreatePin = () => {
+    const client = useClient()
     const {state, dispatch} = useContext(Context)
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
@@ -36,13 +38,7 @@ const CreatePin = () => {
         try {
             event.preventDefault()
             setSubmitting(true)
-            const idToken = window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token
-            const client = new GraphQLClient('http://localhost:4000/graphql', {
-                headers: {
-                    authorization: idToken
-                }
-            })
-    
+  
             const url = await handleImageUpload()
             const {latitude, longitude} = state.draft
     

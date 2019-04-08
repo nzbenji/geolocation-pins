@@ -5,7 +5,7 @@ import { GoogleLogin } from 'react-google-login'
 
 import AppContext from '../../context'
 import {ME_QUERY} from '../../graphql/queries'
-
+import {END_POINT} from '../../client'
 
 
 const Login = ({ classes }) => {
@@ -13,7 +13,7 @@ const Login = ({ classes }) => {
 
   const onSuccess = async user => {
     const tokenID = user.getAuthResponse().id_token
-    const client = new GraphQLClient('http://localhost:4000/graphql', {
+    const client = new GraphQLClient(END_POINT, {
       headers: { authorization: tokenID }
     })
     const {me} = await client.request(ME_QUERY)
