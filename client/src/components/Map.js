@@ -7,6 +7,7 @@ import {GET_PINS_QUERY} from '../graphql/queries'
 
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import differenceInMinutes from 'date-fns/difference_in_minutes'
 
 const INITIAL_VIEWPORT = {
     latitude: 37.7577,
@@ -59,6 +60,12 @@ const Map = () => {
             type: "UPDATE_DRAFT_LOCATION",
             payload: {latitude, longitude}
         })
+    }
+
+    const highlightNewPin = pin => {
+        const isNewPin = differenceInMinutes(Date.now(), Number(pin.createdAt)) <= 30
+
+        return isNewPin ? "limegreen" : "darkblue"
     }
 
     const API_KEY = "pk.eyJ1Ijoia2FsYWR6ZSIsImEiOiJjanRub28wcDQzdW5qNGJtdXN3YmJ1MnNhIn0.4R0arj8vtdr_cpcDdB5Agw"
@@ -118,7 +125,7 @@ const Map = () => {
                     <FontAwesomeIcon 
                         icon={faMapMarkerAlt} 
                         size="3x"
-                        color="blue"
+                        color={highlightNewPin(pin)}
                     />
                 </Marker> 
                 ))}
