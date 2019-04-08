@@ -1,4 +1,5 @@
 import React, {useState, useContext} from "react"
+import {GraphQLClient} from 'graphql-request'
 import axios from 'axios'
 import { faMapMarkedAlt } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -6,12 +7,14 @@ import CreatePinWrapper from '../styles/createPin'
 import { Button, Form, TextArea, Input } from 'semantic-ui-react'
 
 import Context from '../../context'
+import {CREATE_PIN_MUTATION} from '../../graphql/mutations'
 
 const CreatePin = () => {
-    const {dispatch} = useContext(Context)
+    const {state, dispatch} = useContext(Context)
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
     const [content, setContent] = useState("")
+    const [submitting, setSubmitting] = useState(false)
 
     const handleImageUpload = async () => {
         const data = new FormData()
@@ -21,7 +24,6 @@ const CreatePin = () => {
         
         try {
             const res = await axios.post("https://api.cloudinary.com/v1_1/dynl1lsf5/image/upload", data)
-            console.log(res.data)
             return res.data.url
         } catch(err) {
             console.error(err)
@@ -30,9 +32,37 @@ const CreatePin = () => {
     }
 
     const handleSubmit = async event => {
-        event.preventDefault()
-        const url = await handleImageUpload()
-        console.log({title, image,url, content})
+
+        try {
+            event.preventDefault()
+            setSubmitting(true)
+            const idToken = window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token
+            const client = new GraphQLClient('http://localhost:4000/graphql', {
+                headers: {
+                    authorization: idToken
+                }
+            })
+    
+            const url = await handleImageUpload()
+            const {latitude, longitude} = state.draft
+    
+            const variables = {
+                title,
+                image: url,
+                content,
+                latitude,
+                longitude
+            }
+    
+            const {createPin} = await client.request(CREATE_PIN_MUTATION, variables)
+            console.log("pin created", {createPin})
+            handleDelete()
+
+        } catch(err) {
+            setSubmitting(false)
+            console.error(err)
+        }
+        
     }
 
     const handleDelete = () => {
@@ -82,7 +112,7 @@ const CreatePin = () => {
                 <Button negative style={{marginRight: '10px'}} onClick={handleDelete}>Discard</Button>
                 <Button 
                     positive
-                    disabled={!title.trim() || !content.trim() || !image}
+                    disabled={!title.trim() || !content.trim() || !image || submitting}
                     onClick={handleSubmit}
                 >Submit</Button>
             </div>
