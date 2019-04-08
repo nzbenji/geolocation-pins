@@ -52,6 +52,10 @@ const CreatePin = () => {
     
             const {createPin} = await client.request(CREATE_PIN_MUTATION, variables)
             console.log("pin created", {createPin})
+            dispatch({
+                type: "CREATE_PIN",
+                payload: createPin
+            })
             handleDelete()
 
         } catch(err) {
