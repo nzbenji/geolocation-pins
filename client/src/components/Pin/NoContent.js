@@ -22,7 +22,6 @@ const NoContent = () => {
     return (
         <Wrapper>
             <FontAwesomeIcon 
-                style={{justifyContent: 'center'}}
                 icon={faCompass} 
                 size="6x"
                 color="orange"
