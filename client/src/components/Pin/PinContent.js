@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import Context from '../../context'
 import styled from 'styled-components'
 import format from 'date-fns/format'
-import { Grid, Image, Label, Segment, Container } from 'semantic-ui-react'
+import { Grid, Image, Label, Segment, Container, Header } from 'semantic-ui-react'
 
 import Comments from '../Comment/Comments'
 import CreateComment from '../Comment/CreateComment'
@@ -20,11 +20,10 @@ const PinContent = () => {
 
     return (
         <Content>
-            <h2>{title}</h2>
-            <Label as='a'>
-            <Image avatar spaced='right' src={author.picture} />
-            {author.name}
-            </Label>
+            <Header size='large' color='orange'>{title}</Header>
+            <Header as='h3'>
+                <Image circular src={author.picture} /> {author.name}
+            </Header>
             <p>{format(Number(createdAt), "MMM Do, YYYY")}</p>
 
             <Grid columns={1}>
@@ -39,11 +38,14 @@ const PinContent = () => {
                 </Segment>
                 </Grid.Column>
             </Grid>
+            <div>
+                <Comments comments={comments} />
+            </div>
             <div style={{marginTop: '20px'}}>
                 <CreateComment />
             </div>
             
-            <Comments comments={comments} />
+            
         </Content>
     )
 }

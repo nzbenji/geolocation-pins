@@ -14,8 +14,9 @@ import differenceInMinutes from 'date-fns/difference_in_minutes'
 const Image = styled.img`
     cursor: pointer;
     padding: 0.4em;
-    height: 200px;
-    width: 200px;
+    height: 250px;
+    width: 250px;
+    border-radius: 10px;
     object-fit: cover;
 `
 
@@ -118,7 +119,7 @@ const Map = () => {
             <BlogArea/>
             
             <ReactMapGL
-                width="78vw"
+                width="76vw"
                 height="calc(100vh - 64px)" /*Height of page minus nav bar height*/
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxApiAccessToken={API_KEY}

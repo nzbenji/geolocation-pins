@@ -7,11 +7,17 @@ const Comments = ({comments}) => {
     <div style={{marginTop: '5rem'}}>
       <Comment.Group>
         {comments.map((comment, index) => (
-        <Comment key={index}>
-          <Comment.Avatar as='a' src={comment.author.picture} />
+        <Comment 
+          key={index}
+          style={{marginTop: '30px', borderBottom: '1px solid #bdc3c7'}}
+          >
+          <Comment.Avatar 
+            as='a' 
+            src={comment.author.picture} 
+            />
           {console.log(comment)}
           <Comment.Content>
-            <Comment.Author>{comment.author.name}</Comment.Author>
+            <Comment.Author style={{fontSize: '18px'}}>{comment.author.name}</Comment.Author>
             <Comment.Metadata>
               <div>{distanceInWordsToNow(Number(comment.createdAt))} ago</div>
             </Comment.Metadata>
