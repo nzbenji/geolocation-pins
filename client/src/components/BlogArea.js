@@ -3,6 +3,7 @@ import Context from '../context'
 import NoContent from './Pin//NoContent'
 import CreatePin from './Pin//CreatePin'
 import styled from 'styled-components'
+import PinContent from './Pin/PinContent'
 
 const BlogWrapper = styled.div`
     background: white;
@@ -18,10 +19,16 @@ const BlogWrapper = styled.div`
 
 const BlogArea = ({ classes }) => {
     const {state} = useContext(Context)
-    const {draft} = state
+    const {draft, currentPin} = state
     let BlogContent
 
-    !draft ? BlogContent = NoContent : BlogContent = CreatePin
+    if(!draft && !currentPin) {
+        BlogContent = NoContent
+    } else if(draft && !currentPin) {
+        BlogContent = CreatePin
+    } else if(!draft && currentPin) {
+        BlogContent = PinContent
+    }
 
     return (
         <BlogWrapper>

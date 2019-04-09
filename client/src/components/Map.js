@@ -187,10 +187,11 @@ const Map = () => {
                         alt={popup.title}
                     />
                     <div>
-                        <h2>
-                            {popup.latitude.toFixed(6)},
-                            {popup.longitude.toFixed(6)}
-                        </h2>
+                        <h3>
+                            Latitude: {popup.latitude.toFixed(4)}
+                            <br/>
+                            Longitude: {popup.longitude.toFixed(4)}
+                        </h3>
                         {isAuthUser() && (
                             <Button onClick={() => handleDeletePin(popup)}>
                                 <FontAwesomeIcon 
