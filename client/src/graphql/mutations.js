@@ -36,7 +36,7 @@ export const CREATE_COMMENT_MUTATION = `
     mutation($pinId: ID!, $text: String!) {
         createComment(pinId: $pinId, text: $text) {
             _id
-            created
+            createdAt
             title
             content
             image
