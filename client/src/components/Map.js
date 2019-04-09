@@ -118,7 +118,7 @@ const Map = () => {
             <BlogArea/>
             
             <ReactMapGL
-                width="80vw"
+                width="78vw"
                 height="calc(100vh - 64px)" /*Height of page minus nav bar height*/
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxApiAccessToken={API_KEY}
