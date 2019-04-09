@@ -2,10 +2,9 @@ import React from "react"
 import {Comment} from 'semantic-ui-react'
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 
-
 const Comments = ({comments}) => {
   return (
-    <React.Fragment>
+    <div style={{marginTop: '5rem'}}>
       <Comment.Group>
         {comments.map((comment, index) => (
         <Comment key={index}>
@@ -23,7 +22,7 @@ const Comments = ({comments}) => {
         </Comment>
         ))}
     </Comment.Group>
-    </React.Fragment>
+    </div>
     
   )
 }

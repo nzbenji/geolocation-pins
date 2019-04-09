@@ -23,19 +23,19 @@ const CreateComment = () => {
         })
         setComment("")
     }
-
     return (
         <React.Fragment>
             <Form reply style={{width: '98%', height: '100px'}}>
-                <Form.TextArea />
+                <Form.TextArea 
+                    value={comment}
+                    onChange={e => setComment(e.target.value)}
+                />
                 <Button 
                     disabled={!comment.trim}
                     content='Add Comment' 
                     labelPosition='left' 
                     icon='edit' 
                     primary 
-                    value={comment}
-                    onChange={e => setComment(e.target.value)}
                     onClick={handleSubmitComment}
                 />
             </Form>
