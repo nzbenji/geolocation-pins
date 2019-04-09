@@ -4,6 +4,9 @@ import styled from 'styled-components'
 import format from 'date-fns/format'
 import { Grid, Image, Label, Segment, Container } from 'semantic-ui-react'
 
+import Comments from '../Comment/Comments'
+import CreateComment from '../Comment/CreateComment'
+
 const Content = styled.div`
     padding: 1em 0.5em;
     width: 100%;
@@ -36,6 +39,11 @@ const PinContent = () => {
                 </Segment>
                 </Grid.Column>
             </Grid>
+            <div style={{marginTop: '20px'}}>
+                <CreateComment />
+            </div>
+            
+            <Comments comments={comments} />
         </Content>
     )
 }
