@@ -25,18 +25,18 @@ have created and comment on other pins other users have created.
 
 # TODO
 
-[x] Google OAuth
-[x] Users can sign out
-[x] Add Mapbox map
-[x] Users can click to add pins
-[x] Users can add title, image and description to created pin
-[x] Image uploading with cloudinary
-[x] App routing with NextJS
-[x] Displaying Pin content clicking on pins
-[x] Users can delete pins they created
-[x] Users can add comments to different pins
-[x] Blog area styling
-[ ] Users can delete their own comments
-[ ] Navigation Styling
-[ ] Login page Styling
-[ ] Mobile responsive
+- [x] Google OAuth
+- [x] Users can sign out
+- [x] Add Mapbox map
+- [x] Users can click to add pins
+- [x] Users can add title, image and description to created pin
+- [x] Image uploading with cloudinary
+- [x] App routing with NextJS
+- [x] Displaying Pin content clicking on pins
+- [x] Users can delete pins they created
+- [x] Users can add comments to different pins
+- [x] Blog area styling
+- [ ] Users can delete their own comments
+- [ ] Navigation Styling
+- [ ] Login page Styling
+- [ ] Mobile responsive
